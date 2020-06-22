@@ -22,7 +22,9 @@ function Content(props) {
         <Paper className={classes.paper}>
             <div className={classes.contentWrapper}>
                 <Typography color="textSecondary" align="center">
-                    TODO: connect to mqtt
+                    <ul>
+                        {props.data.map(message => <li>{message}</li>)}
+                    </ul>
                 </Typography>
             </div>
         </Paper>
