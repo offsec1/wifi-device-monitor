@@ -1,7 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Connector } from 'mqtt-react'
-import {subscribe} from 'mqtt-react';
 import {createMuiTheme, ThemeProvider, withStyles} from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Hidden from '@material-ui/core/Hidden';
@@ -160,7 +158,6 @@ const styles = {
     },
 };
 
-const MessageContainer = subscribe({topic: 'house/wifi'})(Content);
 
 function Paperbase(props) {
     const {classes} = props;
@@ -190,9 +187,7 @@ function Paperbase(props) {
                 <div className={classes.app}>
                     <Header onDrawerToggle={handleDrawerToggle}/>
                     <main className={classes.main}>
-                        <Connector mqttProps="ws://192.168.0.101:9001/">
-                            <MessageContainer/>
-                        </Connector>
+                        <Content/>
                     </main>
                     <footer className={classes.footer}>
                         <Copyright/>

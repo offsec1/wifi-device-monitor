@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
@@ -16,47 +16,41 @@ const styles = (theme) => ({
     },
 });
 
-const devices = [
-    {
-        mac: "00:00:00:00",
-        type: "AP",
-        name: "YouShallNotPass",
-        signal_strength: "-35db",
-        channel: 3,
-        encryption: "WPA2",
-        probe_request: "N/A"
-    },
-    {
-        mac: "00:00:00:02",
-        type: "client",
-        name: "N/A",
-        signal_strength: "-35db",
-        channel: 3,
-        encryption: "N/A",
-        probe_request: "[BROADCAST]"
-    }
-]
+const mqtt = require('mqtt');
+const options = {
+    protocol: 'mqtt',
+    clientId: '0x001'
+};
+const client = mqtt.connect('mqtt://192.168.0.101:9001/', options);
+
+// subscribe to topic
+client.subscribe('house/wifi')
 
 function Content(props) {
     const {classes} = props;
+    let d;
 
-    return (
-        <Paper className={classes.paper}>
-            <div className={classes.contentWrapper}>
-                <Typography color="textSecondary" align="center">
-                    <ul>
-                        {props.data.map(message => <li>{message}</li>)}
-                    </ul>
-                    {devices.map(({id, mac, type, name, signal_strength, channel, encryption, probe_request}) => (
-                        <React.Fragment key={id}>
-                            <Device mac={mac} type={type} name={name} signal_strength={signal_strength}
-                                    channel={channel} encryption={encryption} probe_request={probe_request}/>
-                        </React.Fragment>
-                    ))}
-                </Typography>
-            </div>
-        </Paper>
-    );
+    client.on('message', function (topic, message) {
+        d = message.toString();
+        setDevices(JSON.parse(d));
+    })
+
+    const [devices, setDevices] = useState([])
+
+    return <Paper className={classes.paper}>
+        <div className={classes.contentWrapper}>
+            <Typography color="textSecondary" align="center">
+                {devices.map(device => (
+                    <React.Fragment key={device.BSSID}>
+                        <Device mac={device.BSSID} type={device.SSID} name={device.SSID}
+                                signal_strength={device.dbm_Signal}
+                                channel={device.Channel} encryption={device.Crypto}
+                                probe_request={device.Probe_Request}/>
+                    </React.Fragment>
+                ))}
+            </Typography>
+        </div>
+    </Paper>;
 }
 
 Content.propTypes = {
