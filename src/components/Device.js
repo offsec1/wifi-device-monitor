@@ -29,17 +29,14 @@ function Device(props) {
 
     return (
         <Paper className={classes.paper}>
+            {type === "[CLIENT DEVICE]" ? <PhoneAndroidIcon/>: <WifiIcon/>}
             <div className={classes.contentWrapper}>
-                <Typography>
-                    <h3> {mac} </h3>
-                    <p> type: {type === "client" ? <span>Client Device <PhoneAndroidIcon/></span> :
-                        <span>Access Point <WifiIcon/></span>} </p>
-                    <p> name: {name} </p>
-                    <p> signal-strength: {signal_strength} </p>
-                    <p> last used wifi channel: {channel} </p>
-                    <p> encryption used: {encryption}</p>
-                    <p> probe-request: {probe_request} </p>
-                </Typography>
+                    <Typography variant="h5"> {mac} </Typography>
+                    {type === "[CLIENT DEVICE]" ? <span/> : <span>name: {name}</span>}
+                    <Typography> signal-strength: {signal_strength} </Typography>
+                    <Typography> last used wifi channel: {channel} </Typography>
+                    <Typography> encryption used: {encryption}</Typography>
+                    <Typography> probe-request: {probe_request} </Typography>
             </div>
         </Paper>
     );

@@ -1,9 +1,11 @@
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
-import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import {withStyles} from '@material-ui/core/styles';
+import Divider from '@material-ui/core/Divider';
 import Device from "./Device";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
 
 const styles = (theme) => ({
     paper: {
@@ -39,16 +41,17 @@ function Content(props) {
 
     return <Paper className={classes.paper}>
         <div className={classes.contentWrapper}>
-            <Typography color="textSecondary" align="center">
+            <List color="textSecondary" align="center">
                 {devices.map(device => (
-                    <React.Fragment key={device.BSSID}>
+                    <ListItem key={device.BSSID}>
                         <Device mac={device.BSSID} type={device.SSID} name={device.SSID}
-                                signal_strength={device.dbm_Signal}
+                                signal_strength={device.dBm_Signal}
                                 channel={device.Channel} encryption={device.Crypto}
                                 probe_request={device.Probe_Request}/>
-                    </React.Fragment>
+                                <Divider/>
+                    </ListItem>
                 ))}
-            </Typography>
+            </List>
         </div>
     </Paper>;
 }
