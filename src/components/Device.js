@@ -6,9 +6,10 @@ import {withStyles} from '@material-ui/core/styles';
 import PhoneAndroidIcon from '@material-ui/icons/PhoneAndroid';
 import WifiIcon from '@material-ui/icons/Wifi';
 
-const styles = (theme) => ({
+const styles = () => ({
     paper: {
-        maxWidth: 936,
+        width: 300,
+        background: 'teal',
         margin: 'auto',
         overflow: 'hidden',
     },
